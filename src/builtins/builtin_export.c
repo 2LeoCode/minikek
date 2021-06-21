@@ -12,6 +12,16 @@
 
 #include <minishell.h>
 
+int export_error(char *command, char c)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": `", 2);
+	ft_putchar_fd(c, 2);
+	ft_putendl_fd("\': not a valid identifier", 2);
+	return (0);
+}
+
 void	ft_printexp(char **ep)
 {
 	char	*rpl;
@@ -44,11 +54,11 @@ int	is_valid_arg(char *str)
 	len = ft_strlen(str);
 	i = 0;
 	if (!(ft_isalpha(str[i]) || str[i] == '_'))
-		return (0);
+		return (export_error("export", str[i]));
 	while (++i < len && str[i] != '=')
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			return (0);
+			return (export_error("export", str[i]));
 	}
 	return (1);
 }
@@ -75,9 +85,11 @@ int	update_path(const char *new_path, bool update_env)
 
 int	builtin_export(int argc, char **argv, char **envp)
 {
+	char 	*cmd;
 	char	*rpl;
 	int		ret;
 
+	cmd = argv[0];
 	(void)envp;
 	while (*++argv)
 	{
