@@ -85,11 +85,9 @@ int	update_path(const char *new_path, bool update_env)
 
 int	builtin_export(int argc, char **argv, char **envp)
 {
-	char 	*cmd;
 	char	*rpl;
 	int		ret;
 
-	cmd = argv[0];
 	(void)envp;
 	while (*++argv)
 	{

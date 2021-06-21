@@ -16,6 +16,24 @@ void	ft_ntputs(const char *termcap, size_t n)
 **	we will return -1, else we will return 1 only if `key` is ENTER to inform
 **	that the command has been sent to the program, otherwise we will return 0.
 */
+static int	process_ctrl_keys(t_input *input, t_term *tcaps, int key)
+{
+	int	ret;
+
+	ret = 0;
+	if (key == _KEY_EOF)
+		ret = process_key_del2(input);
+	else if (key == _KEY_DELETE)
+		ret = process_key_del(input);
+	else if (key == _KEY_LEFT)
+		ret = process_key_left(tcaps, input);
+	else if (key == _KEY_RIGHT)
+		ret = process_key_right(tcaps, input);
+	else if ((key == _KEY_UP) || (key == _KEY_DOWN))
+		ret = process_key_hist(g_global_data.history, input, key);
+	return (ret);
+}
+
 static int	process_key(t_shell *ms, t_input *input, int key)
 {
 	int	ret;
@@ -29,27 +47,9 @@ static int	process_key(t_shell *ms, t_input *input, int key)
 		return (1);
 	if (key == -1 || (ft_isprint(key) && process_key_print(input, key)))
 		return (-1);
-	if (key == _KEY_EOF)
-	{
-		ret = process_key_del2(ms->tcaps, input);
-		if (ret == -1)
-			return (-1);
-		if (ret == 1)
-			return (2);
-	}
-	else if (key == _KEY_DELETE && (!input->index || process_key_del(input)))
-		return (-1 * !!input->index);
-	else if (key == _KEY_LEFT)
-		return (process_key_left(&ms->tcaps, input));
-	else if (key == _KEY_RIGHT)
-		return (process_key_right(&ms->tcaps, input));
-	else if ((key == _KEY_UP) || (key == _KEY_DOWN))
-		ret = process_key_hist(g_global_data.history, input, key);
-	if (ret == -1)
-		return (-1);
-	else if (ret == 1 || (!ft_isascii(key) && key != _KEY_UP && key != _KEY_DOWN
-			&& key != _KEY_LEFT && key != _KEY_RIGHT))
-		return (0);
+	ret = process_ctrl_keys(input, &ms->tcaps, key);
+	if (ret)
+		return (ret - 1);
 	return (update_input(&ms->tcaps, input));
 }
 

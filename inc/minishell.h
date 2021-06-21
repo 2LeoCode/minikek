@@ -240,5 +240,6 @@ void	end_exec(pid_t cpid);
 void	close_all_fds(void);
 void	wait_if_child_running(pid_t *cpid);
 void	set_back_fds(void);
+int		process_key_del2(t_input *input);
 
 #endif

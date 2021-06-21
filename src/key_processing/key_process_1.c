@@ -30,14 +30,19 @@ int	process_key_print(t_input *input, int key)
 */
 int	process_key_del(t_input *input)
 {
-	input->prev_index = input->index--;
-	if (ft_strerase(&input->in, input->index))
-		return (-1);
-	return (0);
+	if (input->index)
+	{
+		input->prev_index = input->index--;
+		if (ft_strerase(&input->in, input->index))
+			return (-1);
+		return (0);
+	}
+	return (1);
 }
 
 int process_key_del2(t_input *input)
 {
+	input->prev_index = input->index;
 	if (input->in[input->index])
 	{
 		if (ft_strerase(&input->in, input->index))
@@ -45,7 +50,8 @@ int process_key_del2(t_input *input)
 		return (0);
 	}
 	if (!input->index)
-		return (1);
+		return (3);
+	return (1);
 }
 
 /*
@@ -61,7 +67,7 @@ int	process_key_left(const t_term *tcaps, t_input *input)
 		tputs(tcaps->le, 1, &ft_putchar);
 		input->prev_index = input->index--;
 	}
-	return (0);
+	return (1);
 }
 
 /*
@@ -77,7 +83,7 @@ int	process_key_right(const t_term *tcaps, t_input *input)
 		tputs(tcaps->ri, 1, &ft_putchar);
 		input->prev_index = input->index++;
 	}
-	return (0);
+	return (1);
 }
 
 /*
