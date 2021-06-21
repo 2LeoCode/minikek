@@ -1,0 +1,1 @@
+#include <libft.h>char	*ft_strcdup(const char *s, char c){	const char	*end = ft_strchr(s, c);	if (end)		return (ft_strndup(s, (size_t)end - (size_t)s));	return (ft_strdup(s));}

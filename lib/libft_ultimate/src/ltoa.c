@@ -1,0 +1,1 @@
+#include <libft.h>char	*ft_ltoa(long n){	return (ft_lltoa((long long)n));}

@@ -1,0 +1,1 @@
+#include <libft.h>void	*ft_memcdup(const void *s, size_t len, char c){	const char	*end = (char *)ft_memchr(s, c, len);	if (end)		return (ft_memndup(s, len, (size_t)end - (size_t)s));	return (ft_memdup(s, len));}

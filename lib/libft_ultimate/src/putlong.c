@@ -1,0 +1,1 @@
+#include <libft.h>int	ft_putlong(long nb){	return ((long)ft_putllong_fd((long long)nb, 1));}

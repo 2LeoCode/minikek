@@ -1,0 +1,1 @@
+#include <libft.h>char	*ft_strmap(const char *s, char (*f)(char)){	char	*map;	char	*ptr;	map = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));	ptr = map;	if (map)	{		while (*s)		{			*(map++) = (*f)(*s);			s++;		}		*map = '\0';	}	return (ptr);}

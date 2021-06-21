@@ -1,0 +1,1 @@
+#include <libft.h>int	ft_putchar_fd(int c, int fd){	const unsigned char	ch = (unsigned char)c;	return (write(fd, &ch, sizeof(char)));}
