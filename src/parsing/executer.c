@@ -14,12 +14,15 @@ void	do_pipe_child(t_shell *ms, t_cmd *current_cmd, t_executor exec)
 	builtin_fun = search_builtin(ms, *current_cmd->argv);
 	if (builtin_fun)
 	{
+		reset_terminal_attributes();
 		g_global_data.status = (*builtin_fun)(current_cmd->argc,
 				current_cmd->argv, g_global_data.env->data);
+		set_terminal_attributes();
 		free(exec.full_path);
 		set_back_fds();
 		minishell_exit(EXIT_SUCCESS);
 	}
+	reset_terminal_attributes();
 	execve(exec.full_path, current_cmd->argv, g_global_data.env->data);
 	perror("minishell");
 	minishell_exit(EXIT_FAILURE);
@@ -37,8 +40,12 @@ static pid_t	execute_cmd(t_shell *ms, t_cmd *current_cmd, t_fdio fdio)
 	if (fdio.out != -1)
 		dup2(fdio.out, 1);
 	if (builtin_fun)
+	{
+		reset_terminal_attributes();
 		g_global_data.status = (*builtin_fun)(current_cmd->argc,
 				current_cmd->argv, g_global_data.env->data);
+		set_terminal_attributes();
+	}
 	else
 		cpid = run_executable(current_cmd, get_first_path(*current_cmd->argv));
 	g_global_data.current_cpid = cpid;
@@ -93,6 +100,7 @@ void	wait_if_child_running(pid_t *cpid)
 			g_global_data.status = WSTOPSIG(pre_status);
 		*cpid = 0;
 		g_global_data.current_cpid = 0;
+		set_terminal_attributes();
 	}
 }
 

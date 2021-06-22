@@ -50,7 +50,6 @@ static int	ft_execute(t_shell *ms, t_cmd **cmd_arr)
 	pre_exit_clear();
 	if (g_global_data.sigint)
 		g_global_data.sigint = false;
-	set_terminal_attributes();
 	return (ret);
 }
 
@@ -84,10 +83,7 @@ static int	process_input(t_shell *ms, char *input)
 	if (!tokens || !cmd_array)
 		check_runtime_error();
 	else
-	{
-		reset_terminal_attributes();
 		ret = ft_execute(ms, cmd_array);
-	}
 	return (ret);
 }
 

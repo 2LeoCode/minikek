@@ -28,6 +28,8 @@ void	static_clear(t_cmd **cmd_arr, char **tokens, int token_cnt)
 			destroy_cmd_array(arr);
 		if (tok)
 			ft_destroy_array(tok, token_cnt);
+		arr = NULL;
+		tok = NULL;
 	}
 }
 

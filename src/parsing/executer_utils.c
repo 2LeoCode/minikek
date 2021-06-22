@@ -51,6 +51,8 @@ pid_t	run_executable(t_cmd *current_cmd, char *full_path)
 	}
 	if (!cpid)
 	{
+		reset_terminal_attributes();
+		kek();
 		execve(full_path, current_cmd->argv, g_global_data.env->data);
 		perror("minishell");
 		minishell_exit(EXIT_FAILURE);
