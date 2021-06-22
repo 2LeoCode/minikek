@@ -43,7 +43,7 @@ void	close_all_fds(void)
 void	end_exec(pid_t cpid)
 {
 	wait_if_child_running(&cpid);
-	dup2(0, g_global_data.stdfd[0]);
-	dup2(1, g_global_data.stdfd[1]);
+	dup2(g_global_data.stdfd[0], 0);
+	dup2(g_global_data.stdfd[1], 1);
 	close_all_fds();
 }
