@@ -88,10 +88,6 @@ void	wait_if_child_running(pid_t *cpid)
 		waitpid(*cpid, &pre_status, 0);
 		if (WIFEXITED(pre_status))
 			g_global_data.status = WEXITSTATUS(pre_status);
-		else if (WIFSIGNALED(pre_status))
-			g_global_data.status = WTERMSIG(pre_status);
-		else if (WIFSTOPPED(pre_status))
-			g_global_data.status = WSTOPSIG(pre_status);
 		*cpid = 0;
 		g_global_data.current_cpid = 0;
 	}

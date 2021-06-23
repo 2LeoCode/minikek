@@ -21,17 +21,12 @@ static bool	is_valid_identifier(const char *tok)
 	return (!*tok);
 }
 
-static int	unset_error(const char *tok)
-{
-	ft_putstr_fd("minishell: unset: `", 2);
-	ft_putstr_fd(tok, 2);
-	ft_putendl_fd("': not a valid identifier", 2);
-	return (1);
-}
-
 int	builtin_unset(int argc, char **argv, char **envp)
 {
 	(void)envp;
+	int	ret;
+
+	ret = 0;
 	while (--argc > 0)
 	{
 		if (!ft_strcmp(argv[argc], "PATH"))
@@ -41,11 +36,11 @@ int	builtin_unset(int argc, char **argv, char **envp)
 		}
 		if (!is_valid_identifier(argv[argc]))
 		{
-			g_global_data.status = unset_error(argv[argc]);
+			ret = not_valid_identifier("unset", argv[argc]);
 			continue ;
 		}
 		if (ft_delenv(argv[argc]))
 			return (-1);
 	}
-	return (0);
+	return (ret);
 }

@@ -12,27 +12,54 @@
 
 #include <minishell.h>
 
-int	export_error(char *command, char c)
+void	ft_sort_strarray(char **arr, int (*cmpf)(const char *, const char *))
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": `", 2);
-	ft_putchar_fd(c, 2);
-	ft_putendl_fd("\': not a valid identifier", 2);
+	char	**it;
+	char	**smallest;
+
+	while (*arr)
+	{
+		smallest = arr;
+		it = arr;
+		while (*++it)
+			if ((*cmpf)(*smallest, *it) > 0)
+				smallest = it;
+		if (arr != smallest)
+			ft_swap(*arr, *smallest, sizeof(void *));
+		arr++;
+	}
+}
+
+int	get_sorted_ep(char ***sorted, char **ep)
+{
+	int	i;
+
+	*sorted = (char **)malloc(sizeof(char *) * (g_global_data.env->count + 1));
+	if (!*sorted)
+		return (-1);
+	i = -1;
+	while (ep[++i])
+		(*sorted)[i] = ep[i];
+	(*sorted)[i] = NULL;
+	ft_sort_strarray(*sorted, ft_strcmp);
 	return (0);
 }
 
-void	ft_printexp(char **ep)
+int	ft_printexp(char **ep)
 {
-	char	*rpl;
+	char			*rpl;
+	char			**sorted;
+	unsigned int	i;
 
-	while (*ep)
-	{
-		if (ft_strncmp(*ep, "_=", 2))
+	if (get_sorted_ep(&sorted, ep))
+		return (-1);
+	i = -1;
+	while (sorted[++i])
+		if (ft_memcmp(sorted[i], "_=", 2))
 		{
 			ft_putstr("declare -x ");
-			rpl = ft_rplchr(*ep, '=', 0);
-			ft_putstr(*ep);
+			rpl = ft_rplchr(sorted[i], '=', 0);
+			ft_putstr(sorted[i]);
 			if (rpl)
 			{
 				ft_putstr("=\"");
@@ -42,8 +69,9 @@ void	ft_printexp(char **ep)
 			}
 			ft_putchar('\n');
 		}
-		ep++;
-	}
+	free(sorted);
+	sorted = NULL;
+	return (0);
 }
 
 int	is_valid_arg(char *str)
@@ -54,11 +82,11 @@ int	is_valid_arg(char *str)
 	len = ft_strlen(str);
 	i = 0;
 	if (!(ft_isalpha(str[i]) || str[i] == '_'))
-		return (export_error("export", str[i]));
+		return (not_valid_identifier("export", str));
 	while (++i < len && str[i] != '=')
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			return (export_error("export", str[i]));
+			return (not_valid_identifier("export", str));
 	}
 	return (1);
 }
@@ -87,26 +115,30 @@ int	builtin_export(int argc, char **argv, char **envp)
 {
 	char	*rpl;
 	int		ret;
+	int		alloc_ret;
 
 	(void)envp;
 	while (*++argv)
 	{
 		if (!is_valid_arg(*argv))
-			return (1);
+		{
+			ret = 1;
+			continue ;
+		}
 		rpl = ft_rplchr(*argv, '=', '\0');
 		if (!ft_strcmp(*argv, "PATH"))
 		{
 			rpl += !!rpl;
-			ret = update_path(rpl, true);
+			alloc_ret = update_path(rpl, true);
 		}
 		else if (!rpl)
-			ret = ft_setenv(*argv, NULL);
+			alloc_ret = ft_setenv(*argv, NULL);
 		else
-			ret = ft_setenv(*argv, rpl + 1);
-		if (ret == -1)
-			return (-1);
+			alloc_ret = ft_setenv(*argv, rpl + 1);
+		if (alloc_ret)
+			return (minishell_error());
 	}
-	if (argc == 1)
-		ft_printexp(g_global_data.env->data);
-	return (0);
+	if (argc == 1 && ft_printexp(g_global_data.env->data))
+		return (minishell_error());
+	return (ret);
 }

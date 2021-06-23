@@ -33,3 +33,13 @@ int	syntax_error(char unexpected_token)
 	ft_putendl_fd("'", 2);
 	return (-1);
 }
+
+int	not_valid_identifier(const char *prefix, const char *tok)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(prefix, 2);
+	ft_putstr_fd("`", 1);
+	ft_putstr_fd(tok, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	return (1);
+}
