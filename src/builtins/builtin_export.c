@@ -82,11 +82,11 @@ int	is_valid_arg(char *str)
 	len = ft_strlen(str);
 	i = 0;
 	if (!(ft_isalpha(str[i]) || str[i] == '_'))
-		return (not_valid_identifier("export", str));
+		return (not_valid_identifier("export", str) - 1);
 	while (++i < len && str[i] != '=')
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			return (not_valid_identifier("export", str));
+			return (not_valid_identifier("export", str) - 1);
 	}
 	return (1);
 }
@@ -118,6 +118,8 @@ int	builtin_export(int argc, char **argv, char **envp)
 	int		alloc_ret;
 
 	(void)envp;
+	alloc_ret = 0;
+	ret = 0;
 	while (*++argv)
 	{
 		if (!is_valid_arg(*argv))
@@ -127,15 +129,9 @@ int	builtin_export(int argc, char **argv, char **envp)
 		}
 		rpl = ft_rplchr(*argv, '=', '\0');
 		if (!ft_strcmp(*argv, "PATH"))
-		{
-			rpl += !!rpl;
-			alloc_ret = update_path(rpl, true);
-		}
-		else if (!rpl)
-			alloc_ret = ft_setenv(*argv, NULL);
-		else
-			alloc_ret = ft_setenv(*argv, rpl + 1);
-		if (alloc_ret)
+			alloc_ret = update_path(rpl + !!rpl, true);
+		else if (alloc_ret || (!rpl && ft_setenv(*argv, NULL))
+			|| (rpl && ft_setenv(*argv, rpl + 1)))
 			return (minishell_error());
 	}
 	if (argc == 1 && ft_printexp(g_global_data.env->data))
