@@ -23,8 +23,8 @@ static bool	is_valid_identifier(const char *tok)
 
 int	builtin_unset(int argc, char **argv, char **envp)
 {
-	(void)envp;
 	int	ret;
+	(void)envp;
 
 	ret = 0;
 	while (--argc > 0)
