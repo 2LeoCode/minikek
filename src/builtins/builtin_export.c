@@ -55,22 +55,22 @@ int	ft_printexp(char **ep)
 		return (-1);
 	i = -1;
 	while (sorted[++i])
-		if (ft_memcmp(sorted[i], "_=", 2))
+	{
+		if (!ft_memcmp(sorted[i], "_=", 2))
+			continue ;
+		ft_putstr("declare -x ");
+		rpl = ft_rplchr(sorted[i], '=', 0);
+		ft_putstr(sorted[i]);
+		if (rpl)
 		{
-			ft_putstr("declare -x ");
-			rpl = ft_rplchr(sorted[i], '=', 0);
-			ft_putstr(sorted[i]);
-			if (rpl)
-			{
-				ft_putstr("=\"");
-				ft_putstr(rpl + 1);
-				ft_putstr("\"");
-				*rpl = '=';
-			}
-			ft_putchar('\n');
+			ft_putstr("=\"");
+			ft_putstr(rpl + 1);
+			ft_putstr("\"");
+			*rpl = '=';
 		}
+		ft_putchar('\n');
+	}
 	free(sorted);
-	sorted = NULL;
 	return (0);
 }
 
