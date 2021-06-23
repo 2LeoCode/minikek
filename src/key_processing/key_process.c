@@ -84,8 +84,10 @@ int	get_input(t_shell *ms, char **final_input)
 	input.hist = g_global_data.history;
 	input.prev_len = 0;
 	ret = 0;
+	set_terminal_attributes();
 	while (!ret)
 		ret = process_key(ms, &input, ft_getchar());
+	reset_terminal_attributes();
 	if (ret == -1)
 		free(input.in);
 	else

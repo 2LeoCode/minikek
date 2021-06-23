@@ -40,11 +40,6 @@ int	setup_termios(void)
 		return (-1);
 	g_global_data.term_current.c_lflag &= ~(ICANON);
 	g_global_data.term_current.c_lflag &= ~(ECHO);
-	if (tcsetattr(0, 0, &g_global_data.term_current) == -1)
-	{
-		write(2, "Error while editing terminal attributes\n", 40);
-		return (-1);
-	}
 	return (0);
 }
 

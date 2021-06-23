@@ -107,7 +107,6 @@ int	executer(t_shell *ms, t_cmd **cmd_arr)
 	cmd_arr--;
 	g_global_data.stdfd[0] = dup(0);
 	g_global_data.stdfd[1] = dup(1);
-	reset_terminal_attributes();
 	while (*++cmd_arr)
 	{
 		init_fdio(&fdio, *cmd_arr);
@@ -124,7 +123,6 @@ int	executer(t_shell *ms, t_cmd **cmd_arr)
 		if (check_error(&cpid, *(*cmd_arr)->argv))
 			return (-1);
 	}
-	set_terminal_attributes();
 	end_exec(cpid);
 	return (0);
 }
