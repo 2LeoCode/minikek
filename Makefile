@@ -47,6 +47,7 @@ SRC =		$(addsuffix $(word 1, $(.SUFFIXES)),\
 			minishell_error\
 			minishell_exit\
 			minishell_history\
+			minishell_utils\
 			signal_handling)
 INC =		$(addsuffix $(word 3, $(.SUFFIXES)),\
 			libft\
