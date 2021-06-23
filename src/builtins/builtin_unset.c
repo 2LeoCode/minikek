@@ -39,13 +39,13 @@ int	builtin_unset(int argc, char **argv, char **envp)
 			ft_destroy_array((void **)g_global_data.path, NULL_ENDED);
 			g_global_data.path = NULL;
 		}
-		if (ft_env_exists(argv[argc]))
+		if (!is_valid_identifier(argv[argc]))
 		{
-			if (ft_delenv(argv[argc]))
-				return (-1);
+			g_global_data.status = unset_error(argv[argc]);
+			continue ;
 		}
-		else if (!is_valid_identifier(argv[argc]))
-			return (unset_error(argv[argc]));
+		if (ft_delenv(argv[argc]))
+			return (-1);
 	}
 	return (0);
 }

@@ -99,7 +99,7 @@ int	builtin_export(int argc, char **argv, char **envp)
 			rpl += !!rpl;
 			ret = update_path(rpl, true);
 		}
-		else if (!rpl && !ft_getenv(*argv))
+		else if (!rpl)
 			ret = ft_setenv(*argv, NULL);
 		else
 			ret = ft_setenv(*argv, rpl + 1);
