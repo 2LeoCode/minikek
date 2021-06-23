@@ -12,7 +12,8 @@
 
 #include <minishell.h>
 
-static char	**parse_token(char **token, t_cmd *current_cmd, unsigned int *index)
+static char	**parse_token(char **token, t_cmd *current_cmd,
+	unsigned int *index)
 {
 	if (**token == '>')
 	{
@@ -21,7 +22,8 @@ static char	**parse_token(char **token, t_cmd *current_cmd, unsigned int *index)
 		free(*token);
 		*token++ = NULL;
 		if (lst_push_front(current_cmd->out,
-				(t_redir[]){{*token, current_cmd->redirect_out * O_TRUNC}}, sizeof(t_redir)))
+				(t_redir[]){{(*token), current_cmd->redirect_out * O_TRUNC}},
+			sizeof(t_redir)))
 			return (NULL);
 		*token = NULL;
 	}

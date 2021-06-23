@@ -47,7 +47,6 @@ static pid_t	execute_cmd(t_shell *ms, t_cmd *current_cmd, t_fdio fdio)
 	g_global_data.current_cpid = cpid;
 	dup2(g_global_data.stdfd[0], 0);
 	dup2(g_global_data.stdfd[1], 1);
-	//close_all_fds();
 	return (cpid);
 }
 

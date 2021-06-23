@@ -40,20 +40,6 @@ int	process_key_del(t_input *input)
 	return (1);
 }
 
-int process_key_del2(t_input *input)
-{
-	input->prev_index = input->index;
-	if (input->in[input->index])
-	{
-		if (ft_strerase(&input->in, input->index))
-			return (-1);
-		return (0);
-	}
-	if (!input->index)
-		return (3);
-	return (1);
-}
-
 /*
 **	Here we will process the LEFT key:
 **	We use the termcap 'le' to move the cursor a single case to the left,

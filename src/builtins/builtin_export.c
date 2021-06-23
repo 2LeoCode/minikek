@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-int export_error(char *command, char c)
+int	export_error(char *command, char c)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);

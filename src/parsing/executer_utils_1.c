@@ -24,7 +24,8 @@ int	create_file(const char *path, int flag)
 {
 	int	fd;
 
-	fd = open(path, O_CREAT | O_WRONLY | flag, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	fd = open(path, O_CREAT | O_WRONLY | flag,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd == -1)
 		return (-1);
 	close(fd);

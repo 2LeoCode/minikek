@@ -6,7 +6,8 @@ int	create_useless_files(t_list *out)
 
 	while (it->prev != out)
 	{
-		if (create_file(((t_redir *)it->data)->path, ((t_redir *)it->data)->mode))
+		if (create_file(((t_redir *)it->data)->path,
+				((t_redir *)it->data)->mode))
 			return (file_error(((t_redir *)it->data)->path));
 		it = it->prev;
 	}
@@ -23,7 +24,8 @@ int	open_useful_files(t_cmd *current_cmd, t_fdio *fdio)
 				O_CREAT | O_WRONLY | O_TRUNC,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (fdio->out == -1)
-			return (file_error(((t_redir *)current_cmd->out->next->data)->path));
+			return (file_error(
+					((t_redir *)current_cmd->out->next->data)->path));
 	}
 	else if (current_cmd->redirect_out2)
 	{
@@ -31,7 +33,8 @@ int	open_useful_files(t_cmd *current_cmd, t_fdio *fdio)
 				O_CREAT | O_WRONLY | O_APPEND,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		if (fdio->out == -1)
-			return (file_error(((t_redir *)current_cmd->out->next->data)->path));
+			return (file_error(
+					((t_redir *)current_cmd->out->next->data)->path));
 	}
 	return (0);
 }

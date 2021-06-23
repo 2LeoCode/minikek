@@ -1,5 +1,19 @@
 #include <minishell.h>
 
+int	process_key_del2(t_input *input)
+{
+	input->prev_index = input->index;
+	if (input->in[input->index])
+	{
+		if (ft_strerase(&input->in, input->index))
+			return (-1);
+		return (0);
+	}
+	if (!input->index)
+		return (3);
+	return (1);
+}
+
 void	ft_ntputs(const char *termcap, size_t n)
 {
 	while (n--)
