@@ -40,16 +40,26 @@ static int	replace_regular_env(char **token, char **ptr_to_dollar)
 	return (0);
 }
 
+char	*go_to_next_var(const char *tok)
+{
+	char	*ptr;
+
+	ptr = ft_strchr(tok, '$');
+	while (ptr && ptr[1] != '?' &&
+			(!ptr[1] || ft_isspace(ptr[1]) || ft_ispunct(ptr[1])))
+		ptr = ft_strchr(ptr + 1, '$');
+	return (ptr);
+}
+
 int	replace_env_tokens(char **tokens)
 {
 	char	*ptr;
 
-	ptr = NULL;
 	while (*tokens)
 	{
 		if (**tokens != '\'')
 		{
-			ptr = ft_strchr(*tokens, '$');
+			ptr = go_to_next_var(*tokens);
 			while (ptr)
 			{
 				if (!ft_memcmp(ptr, "$?", 2))
@@ -59,7 +69,7 @@ int	replace_env_tokens(char **tokens)
 				}
 				else if (replace_regular_env(tokens, &ptr))
 					return (-1);
-				ptr = ft_strchr(ptr + !!*ptr, '$');
+				ptr = go_to_next_var(ptr + !!*ptr);
 			}
 		}
 		tokens++;
