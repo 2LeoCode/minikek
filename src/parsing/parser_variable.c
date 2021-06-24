@@ -40,7 +40,7 @@ static int	replace_regular_env(char **token, char **ptr_to_dollar)
 	return (0);
 }
 
-char	*go_to_next_var(const char *tok)
+static char	*go_to_next_var(const char *tok)
 {
 	char	*ptr;
 
