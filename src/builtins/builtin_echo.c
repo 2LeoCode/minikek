@@ -26,6 +26,29 @@ int	is_valid_nflag(char *str)
 
 void	ft_putecho(char **av, int ac, bool *n_flag)
 {
+	int i;
+
+	i = 1;
+	while (i < ac && ft_strncmp(av[i], "-n", 2) == 0
+		&& is_valid_nflag(av[i]))
+	{
+		*n_flag = true;
+		i++;
+	}
+	while (i < ac)
+	{
+		if (i > 1 && !(ft_strncmp(av[i - 1], "-n", 2) == 0
+			&& is_valid_nflag(av[i - 1])))
+			ft_putchar_fd(' ', 1);
+		ft_putstr(av[i]);
+		i++;
+	}
+	if (!*n_flag)
+		ft_putchar_fd('\n', 1);
+}
+
+/*void	ft_putecho(char **av, int ac, bool *n_flag)
+{
 	int	i;
 
 	i = 1;
@@ -49,7 +72,7 @@ void	ft_putecho(char **av, int ac, bool *n_flag)
 	}
 	if (!*n_flag)
 		ft_putchar_fd('\n', 1);
-}
+}*/
 
 int	builtin_echo(int argc, char **argv, char **envp)
 {
