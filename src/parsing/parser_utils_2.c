@@ -40,7 +40,7 @@ static int	alloc_new_cmd(t_cmd **new, int ac, t_cmd *old)
 	return (0);
 }
 
-int		remove_empty_strings(t_cmd **cmd)
+int	remove_empty_strings(t_cmd **cmd)
 {
 	const size_t	empty_cnt = empty_string_cnt((*cmd)->argc, (*cmd)->argv);
 	t_cmd			*new_cmd;
