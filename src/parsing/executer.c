@@ -1,9 +1,8 @@
 #include <minishell.h>
 
-void	do_pipe_child(t_shell *ms, t_cmd *current_cmd, t_executor exec)
+void	do_pipe_child(t_builtin_fun builtin_fun, t_cmd *current_cmd,
+			t_executor exec)
 {
-	t_builtin_fun	builtin_fun;
-
 	close(exec.pipefd[0]);
 	if (exec.fdio.out != -1)
 		dup2(exec.fdio.out, 1);
@@ -11,7 +10,6 @@ void	do_pipe_child(t_shell *ms, t_cmd *current_cmd, t_executor exec)
 		dup2(exec.pipefd[1], 1);
 	if (exec.fdio.in != -1)
 		dup2(exec.fdio.in, 0);
-	builtin_fun = search_builtin(ms, *current_cmd->argv);
 	if (builtin_fun)
 	{
 		g_global_data.status = (*builtin_fun)(current_cmd->argc,
@@ -60,9 +58,7 @@ static pid_t	execute_cmd_pipe(t_shell *ms, t_cmd *current_cmd, t_fdio fdio)
 	cpid = 0;
 	pipe(pipefd);
 	full_path = get_first_path(*current_cmd->argv);
-	if (!full_path)
-		return (-1);
-	exec = (t_executor){full_path, fdio, {pipefd[0], pipefd[1]}};
+	exec = (t_executor){NULL, fdio, {pipefd[0], pipefd[1]}};
 	cpid = fork_and_do_child(ms, current_cmd, exec);
 	if (cpid == -1)
 		return (cmd_fail(full_path));

@@ -19,7 +19,7 @@ int	is_valid_nflag(char *str)
 	i = 1;
 	while (str[i] && str[i] == 'n')
 		i++;
-	if (str[i] == ' ' || str[i] == '\0')
+	if (str[i] == '\0')
 		return (1);
 	return (0);
 }

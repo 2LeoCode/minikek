@@ -87,11 +87,13 @@ int	ft_setenv(const char *name, const char *value)
 	i = -1;
 	name_len = ft_strlen(name);
 	while (++i < g_global_data.env->count)
+	{
 		if (ft_strlen(g_global_data.env->data[i]) >= name_len
 			&& (g_global_data.env->data[i][name_len] == '='
 			|| !g_global_data.env->data[i][name_len])
 		&& !ft_memcmp(g_global_data.env->data[i], name, name_len))
 			break ;
+	}
 	if (value)
 	{
 		if (g_global_data.env->data[i])

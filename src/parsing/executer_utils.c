@@ -67,10 +67,18 @@ int	cmd_fail(char *full_path)
 
 pid_t	fork_and_do_child(t_shell *ms, t_cmd *current_cmd, t_executor exec)
 {
-	pid_t	cpid;
+	pid_t			cpid;
+	t_builtin_fun	builtin_fun;
 
+	builtin_fun = search_builtin(ms, *current_cmd->argv);
+	if (!builtin_fun)
+	{
+		exec.full_path = get_first_path(*current_cmd->argv);
+		if (!exec.full_path)
+			return (-1);
+	}
 	cpid = fork();
 	if (!cpid)
-		do_pipe_child(ms, current_cmd, exec);
+		do_pipe_child(builtin_fun, current_cmd, exec);
 	return (cpid);
 }

@@ -229,7 +229,8 @@ size_t	get_next_token(char *str);
 size_t	skip_quote_token(char *str);
 size_t	ft_skip_whitespace(char *str);
 void	handle_sigint(t_input *input);
-void	do_pipe_child(t_shell *ms, t_cmd *current_cmd, t_executor exec);
+void	do_pipe_child(t_builtin_fun builtin_fun, t_cmd *current_cmd,
+			t_executor exec);
 int		get_input(t_shell *ms, char **final_input);
 void	*invalid_file(const char *path);
 void	ft_ntputs(const char *termcap, size_t n);
