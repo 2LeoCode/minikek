@@ -41,7 +41,7 @@ void	ft_putecho(char **av, int ac, bool *n_flag)
 		}
 		else
 		{
-			if (i != 1 && *av[i] && ft_strcmp(av[i - 1], "-n") != 0)
+			if (i != 1 && ft_strcmp(av[i - 1], "-n") != 0)
 				ft_putchar_fd(' ', 1);
 			ft_putstr(av[i]);
 			i++;

@@ -244,5 +244,6 @@ void	set_back_fds(void);
 int		process_key_del2(t_input *input);
 int		not_valid_identifier(const char *prefix, const char *tok);
 void	ft_sort_strarray(char **arr, int (*cmpf)(const char *, const char *));
+int		remove_empty_strings(t_cmd **cmd);
 
 #endif

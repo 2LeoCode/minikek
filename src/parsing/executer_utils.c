@@ -80,5 +80,7 @@ pid_t	fork_and_do_child(t_shell *ms, t_cmd *current_cmd, t_executor exec)
 	cpid = fork();
 	if (!cpid)
 		do_pipe_child(builtin_fun, current_cmd, exec);
+	free(exec.full_path);
+	exec.full_path = NULL;
 	return (cpid);
 }

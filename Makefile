@@ -33,6 +33,7 @@ SRC =		$(addsuffix $(word 1, $(.SUFFIXES)),\
 			lexer_utils\
 			lexer\
 			parser_utils_1\
+			parser_utils_2\
 			parser_utils\
 			parser_variable\
 			parser\

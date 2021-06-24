@@ -50,18 +50,16 @@ static pid_t	execute_cmd(t_shell *ms, t_cmd *current_cmd, t_fdio fdio)
 
 static pid_t	execute_cmd_pipe(t_shell *ms, t_cmd *current_cmd, t_fdio fdio)
 {
-	char			*full_path;
 	t_executor		exec;
 	int				pipefd[2];
 	pid_t			cpid;
 
 	cpid = 0;
 	pipe(pipefd);
-	full_path = get_first_path(*current_cmd->argv);
 	exec = (t_executor){NULL, fdio, {pipefd[0], pipefd[1]}};
 	cpid = fork_and_do_child(ms, current_cmd, exec);
 	if (cpid == -1)
-		return (cmd_fail(full_path));
+		return (cmd_fail(*current_cmd->argv));
 	g_global_data.current_cpid = cpid;
 	close(pipefd[1]);
 	if (fdio.in != -1)
@@ -70,7 +68,6 @@ static pid_t	execute_cmd_pipe(t_shell *ms, t_cmd *current_cmd, t_fdio fdio)
 		close(fdio.out);
 	dup2(pipefd[0], 0);
 	dup2(g_global_data.stdfd[1], 1);
-	free(full_path);
 	return (cpid);
 }
 
