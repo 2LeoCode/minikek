@@ -69,7 +69,7 @@ int	replace_env_tokens(char **tokens)
 				}
 				else if (replace_regular_env(tokens, &ptr))
 					return (-1);
-				ptr = go_to_next_var(ptr + !!*ptr);
+				ptr = go_to_next_var(ptr);
 			}
 		}
 		tokens++;
