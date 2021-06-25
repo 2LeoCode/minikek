@@ -45,8 +45,8 @@ static char	*go_to_next_var(const char *tok)
 	char	*ptr;
 
 	ptr = ft_strchr(tok, '$');
-	while (ptr && ptr[1] != '?' &&
-			(!ptr[1] || ft_isspace(ptr[1]) || ft_ispunct(ptr[1])))
+	while (ptr && ptr[1] != '?'
+		&& (!ptr[1] || ft_isspace(ptr[1]) || ft_ispunct(ptr[1])))
 		ptr = ft_strchr(ptr + 1, '$');
 	return (ptr);
 }

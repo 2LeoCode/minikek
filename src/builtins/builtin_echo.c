@@ -26,8 +26,8 @@ int	is_valid_nflag(char *str)
 
 void	ft_putecho(char **av, int ac, bool *n_flag)
 {
-	int i;
-	bool no_more_n;
+	int		i;
+	bool	no_more_n;
 
 	i = 1;
 	no_more_n = false;
